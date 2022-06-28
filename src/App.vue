@@ -1,26 +1,50 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="app">
+    <div class="home">
+      <Floor v-for="(floor, i) in floors" :key="i" :floorNumber="i + 1" />
+      <Elevator />
+    </div>
+    <form>
+      <div class="">
+        <label>Введите колисчество этажей </label>
+        <input type="text" v-model.number="this.amountOfFloors">
+        <button @click.prevent="changeAmountOfFloors">Задать</button>
+      </div>
+      <span v-if="v$.amountOfFloors.$error">Минимальное количество этажей 2</span>
+    </form>
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Floor from "./components/Floor";
+import Elevator from "./components/Elevator.vue";
+import useVuelidate from '@vuelidate/core';
+import { required, minValue } from '@vuelidate/validators';
 
 export default {
-  name: "App",
-  components: {
-    HelloWorld,
+  components: { Floor, Elevator },
+  data: () => ({
+    amountOfFloors: 5,
+    floors: Array(5)
+  }),
+  setup() {
+    return { v$: useVuelidate() };
   },
+  validations() {
+    return {
+      amountOfFloors: { required, minValue: minValue(2) },
+    };
+  },
+  methods: {
+    changeAmountOfFloors() {
+      if (this.v$.$invalid) {
+        this.v$.$touch();
+        return;
+      }
+
+      this.$store.commit('cleanAll')
+      this.floors.length = this.amountOfFloors
+    }
+  }
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

@@ -1,5 +1,10 @@
 # elevator
 
+## Project start
+```
+npm start
+```
+
 ## Project setup
 ```
 npm install
