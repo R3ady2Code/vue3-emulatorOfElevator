@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import 'animate.css'
+import { mapGetters } from 'vuex';
+import 'animate.css';
 
 
 export default {
@@ -20,25 +20,24 @@ export default {
 	},
 	methods: {
 		moveElevator() {
-			const pixelMove = (this.firstInQueue - 1) * 120
-			this.$refs.elevator.style.transition = `all ${Math.abs(this.firstInQueue - this.currentFloor)}s linear`
-			this.$store.commit('changeDirection', this.firstInQueue > this.currentFloor ? 'up' : 'down')
-			this.$refs.elevator.style.transform = `translateY(-${pixelMove}px)`
-			this.$store.commit('changeCurrentFloor', this.firstInQueue)
+			const pixelMove = (this.firstInQueue - 1) * 120;
+			this.$refs.elevator.style.transition = `all ${Math.abs(this.firstInQueue - this.currentFloor)}s linear`;
+			this.$store.commit('changeDirection', this.firstInQueue > this.currentFloor ? 'up' : 'down');
+			this.$refs.elevator.style.transform = `translateY(-${pixelMove}px)`;
+			this.$store.commit('changeCurrentFloor', this.firstInQueue);
 			this.$refs.elevator.ontransitionend = () => {
-				this.$store.commit('changeElevatorStatus', 'onFloor')
+				this.$store.commit('changeElevatorStatus', 'onFloor');
 				setTimeout(() => {
-					this.$store.commit('changeElevatorStatus', 'ready')
-					this.$store.commit('deleteFromQueue')
-					console.log(this.currentFloor)
-					if (this.firstInQueue) this.moveElevator()
+					this.$store.commit('changeElevatorStatus', 'ready');
+					this.$store.commit('deleteFromQueue');
+					if (this.firstInQueue) this.moveElevator();
 				}, 3000)
 			}
 		},
 	},
 	mounted() {
 		this.$store.watch(() => this.elevatorStatus, (elevatorStatus) => {
-			if (elevatorStatus === 'active') this.moveElevator(elevatorStatus)
+			if (elevatorStatus === 'active') this.moveElevator(elevatorStatus);
 		})
 	},
 

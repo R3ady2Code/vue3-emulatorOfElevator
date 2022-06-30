@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Floor',
@@ -19,10 +19,10 @@ export default {
   methods: {
     callUp() {
       if (!this.isFloorInQueue(this.floorNumber) && this.elevatorStatus === 'ready') {
-        this.$store.commit('addToQueue', this.floorNumber)
-        this.$store.commit('changeElevatorStatus', 'active')
-      } else {
-        this.$store.commit('addToQueue', this.floorNumber)
+        this.$store.commit('addToQueue', this.floorNumber);
+        this.$store.commit('changeElevatorStatus', 'active');
+      } else if (!this.isFloorInQueue(this.floorNumber)) {
+        this.$store.commit('addToQueue', this.floorNumber);
       }
     }
   }

@@ -39,11 +39,11 @@ export default {
     changeAmountOfFloors() {
       if (this.v$.$invalid) {
         this.v$.$touch();
-        return;
+        return
       }
 
-      this.$store.commit('cleanAll')
-      this.floors.length = this.amountOfFloors
+      this.$store.commit('cleanAll');
+      this.floors.length = this.amountOfFloors;
     }
   }
 };
